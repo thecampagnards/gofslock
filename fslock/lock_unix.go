@@ -91,12 +91,6 @@ func (uls *unixLockState) lockImpl(l *L) (Handle, error) {
 		return &unixLockHandle{uls, ule, stat.Ino, true}, nil
 	}
 
-	// Call platform dependent flockLock() to lock the file at a filesystem
-	// level.
-	if err := flockLock(l, fd); err != nil {
-		return nil, err
-	}
-
 	if uls.held == nil {
 		uls.held = make(map[uint64]*unixLockEntry)
 	}
